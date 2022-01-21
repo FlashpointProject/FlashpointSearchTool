@@ -20,6 +20,10 @@ switch ($by) {
             $stmt->bindValue(($i+1), "%$keyword%");
         }
         break;
+    case 'uuid':
+        $stmt = $db->prepare('SELECT * FROM game WHERE id LIKE :id');
+        $stmt->bindValue(':id', "%$q%");
+        break;
     default:
         $stmt = $db->prepare('SELECT * FROM game WHERE title LIKE :title OR alternateTitles LIKE :alternate');
         $stmt->bindValue(':title', "%$q%");
@@ -30,7 +34,7 @@ $result = $stmt->execute();
 ?>
 <?php for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i): ?>
     <div class="game">
-        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game[platform]}] {$game[title]}" ?></a>
+        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game['platform']}] {$game['title']}" ?></a>
         <div class="game-details collapse" id="game-<?php echo $i ?>" data-id="<?php echo $game['id'] ?>">Loading...</div>
     </div>
 <?php endfor ?>

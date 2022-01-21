@@ -22,6 +22,7 @@ td { padding: 0 1em; }
                     <option>Best match</option>
                     <option value="keywords">Keywords</option>
                     <option value="host">Hostname</option>
+                    <option value="uuid">UUID</option>
                 </select>
             </div>
         </div>

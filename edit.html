@@ -19,7 +19,8 @@
     .app, .new { margin-left:40px; }
 </style>
 <div class="container" id="main" ng-app="">
-    <h1>Flashpoint Browser</h1>
+    <h1>Flashpoint's Average Pendie System</h1>
+    <div>If you were looking for regular meta edits, follow the <a href="https://bluemaxima.org/flashpoint/datahub/Metadata_Edits">usual method</a> instead of here</div>
     <form id="search">
         <div class="form-row">
             <div class="col">
@@ -71,6 +72,59 @@
         </div>
     </div>
 </div>
+<datalist id="app-path">
+    <option value=":browser-mode:"></option>
+    <option value="FPSoftware\Basilisk-Portable\Basilisk-Portable.exe"></option>
+    <option value="FPSoftware\Flash\5r30\FlashPla.exe"></option>
+    <option value="FPSoftware\Flash\6r21\SAFlashPlayer.exe"></option>
+    <option value="FPSoftware\Flash\6r4\SAFlashPlayer.exe"></option>
+    <option value="FPSoftware\Flash\7r14\SAFlashPlayer.exe"></option>
+    <option value="FPSoftware\Flash\8r22\SAFlashPlayer.exe"></option>
+    <option value="FPSoftware\Flash\9r16\SAFlashPlayer.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer11_9r900_152_win_sa_debug.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer14_0r0_179_win_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer19_0r0_245_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer27_0r0_187_win_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer9r277_win_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer_10_3r183_90_win_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer_32_sa.exe"></option>
+    <option value="FPSoftware\Flash\flashplayer_7_sa.exe"></option>
+    <option value="FPSoftware\FlashpointSecurePlayer.exe"></option>
+    <option value="FPSoftware\OldCPUSimulator\OldCPUSimulator.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ101\Projector.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ101\SPR.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ101\SPRD.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ1103\SPR.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ1159\Projector.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ1159\SPR.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ1159\SPRD.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ12\Projector.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ12\SPR.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ851\Projector.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ851\SPR.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ851\SPRS.exe"></option>
+    <option value="FPSoftware\Shockwave\PJ9\SPR.exe"></option>
+    <option value="FPSoftware\startActiveX.bat"></option>
+    <option value="FPSoftware\startAlambik.bat"></option>
+    <option value="FPSoftware\startAtmo212d.bat"></option>
+    <option value="FPSoftware\startBasilisk_compat.bat"></option>
+    <option value="FPSoftware\startBlaxxun44.bat"></option>
+    <option value="FPSoftware\startBurster.bat"></option>
+    <option value="FPSoftware\startChrome.bat"></option>
+    <option value="FPSoftware\startCosmo211.bat"></option>
+    <option value="FPSoftware\startGroove.bat"></option>
+    <option value="FPSoftware\startJava.bat"></option>
+    <option value="FPSoftware\startJavaInBrowser.bat"></option>
+    <option value="FPSoftware\startLive3D.bat"></option>
+    <option value="FPSoftware\startNetscape.bat"></option>
+    <option value="FPSoftware\startRebol.bat"></option>
+    <option value="FPSoftware\startSVR.bat"></option>
+    <option value="FPSoftware\startShiVa.bat"></option>
+    <option value="FPSoftware\startUnity.bat"></option>
+    <option value="FPSoftware\startUnityFF.bat"></option>
+    <option value="FPSoftware\startVRweb.bat"></option>
+    <option value="FPSoftware\startXaraPlugin.bat"></option>
+</datalist>
 <script>
 var settings = JSON.parse(localStorage.getItem('settings')) || {};
 let search;
@@ -82,6 +136,7 @@ function refresh() {
         var data = {...$('#search').form(), ...settings};
         search = $.post('search.php', data, function(data) {
             var parsedData = "";
+            console.log(data);
             for(var curation in data) {
                 parsedData += "<div class='game'>\
                     <a href='#' data-toggle='collapse' data-target='#game-"+data[curation].id+"'>["+data[curation].platform+"] "+data[curation].title+"</a>\
@@ -113,22 +168,78 @@ $('#search .form-control').on('input', refresh);
 
 $(document).on('show.bs.collapse', '.game-details', function() {
     var id = $(this).data('id');
-    view = $.get(`view.php?id=${id}`, function(data) {
+    view = $.get(`view.php?id=${id}&getapps`, function(data) {
         var parsedData = "";
-        parsedData += `<img class="thumb blur" src="img/Logos/${data.id.substring(0,2)}/${data.id.substring(2,4)}/${data.id}.png"><img class="thumb blur" src="img/Screenshots/${data.id.substring(0,2)}/${data.id.substring(2,4)}/${data.id}.png"><pre>UUID: ${data.id}`;
+        console.log(data);
+
+        parsedData += `<pre>UUID: ${data.id}`;
         if (data.alternateTitles) parsedData += `\nAlternate Titles: ${data.alternateTitles}`;
-        if (data.series) parsedData += `\nSeries: ${data.series}`;
-        if (data.developer) parsedData += `\nDeveloper: ${data.developer}`;
-        if (data.publisher) parsedData += `\nPublisher: ${data.publisher}`;
-        if (data.language) parsedData += `\nLanguages: ${data.language}`;
         parsedData += `\nApplication Path: ${data.applicationPath}\nLaunch Command: ${data.launchCommand}</pre>`;
+        for (app in data.additionalApps) {
+            parsedData += `<div class="app">
+                ${data.additionalApps[app].applicationPath != ':extras:' ? `&#x270E; ${data.additionalApps[app].name}` : `&#128193; ${data.additionalApps[app].launchCommand}`}`;
+            if (data.additionalApps[app].applicationPath != ':extras:') {
+                parsedData += `<form class='app-edit'>
+                    <div class='form-row'>`;
+                if (data.additionalApps[app].applicationPath != ':message:') {
+                    parsedData += `<div class='col-sm-3'>\
+                                <input class='form-control' type='text' name='app-name' id='app-name-${data.additionalApps[app].id}' placeholder='Name' value='${data.additionalApps[app].name}' />
+                            </div>
+                            <div class='col-sm-3'>
+                                <input class='form-control' list='app-path' type='text' name='app-path' id='app-path-${data.additionalApps[app].id}' placeholder='App path' value='${data.additionalApps[app].applicationPath}' />
+                            </div>`;
+                }
+                parsedData += `<div class='col-sm-${data.additionalApps[app].applicationPath != ':message:' ? 3 : 9 }'>
+                                    <input class='form-control' type='text' name='app-lc' id='app-lc--${data.additionalApps[app].id}' placeholder='${data.additionalApps[app].applicationPath  == ':message:' ? 'Message content' : data.additionalApps[app].applicationPath != ':extras:' ? 'Launch Command' : ''}' value='${data.additionalApps[app].launchCommand}'/>
+                                </div>
+                                <div class='col-sm-3'>
+                                    <button type='button' class='btn btn-primary form-control' onclick='createEdit("${data.additionalApps[app].id}")'>Create Edit</button>
+                                </div>
+                            </div>
+                        </form>`
+            }
+            parsedData += '</div>';
+        }
+        parsedData += `
+            <div class="new">
+                &#10133; New App
+                <form class="app-new">
+                    <div class="form-row" style="margin-bottom: 5px;">
+                        <div class="col-sm-3">
+                            <select class="form-control" id="new-type-${data.id}">
+                                <option value="alt">Alt Version</option>
+                                <option value=":message:">Message</option>
+                                <option value=":extras:">Extras</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3" style="align-self: self-end;">
+                            <label><input type="checkbox" name="replacemain" id="new-replc-${data.id}"></input> Become the main app</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" id="new-altnm-${data.id}" placeholder="Name for the former main app"/>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="new-name" id="new-name-${data.id}" placeholder="Name"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <input class="form-control" list="app-path" type="text" name="app-path" id="new-path-${data.id}" placeholder="App path" value="FPSoftware\Flash\flashplayer_32_sa.exe" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="new-lc" id="new-lc-${data.id}" placeholder="LC/Extras/Message content"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-success form-control" onclick="createApp('${data.id}')">New App</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <pre></pre>`;
         
         $('#game-'+data.id).html(parsedData);
     });
-});
-
-$(document).on('click', '.blur', function() {
-    $(this).removeClass('blur');
 });
 
 function createEdit(app_id) {

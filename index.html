@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Flashpoint's Average Pendie System</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous"></script>
+    <script src="https://jcward.com/UUID.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+<style>
+    td { padding: 0 1em; }
+    .thumb { object-fit: contain; width: 250px; max-height: 250px }
+    .blur { filter: blur(8px); cursor: pointer }
+    .app, .new { margin-left:40px; }
+</style>
+<div class="container" id="main" ng-app="">
+    <h1>Flashpoint Browser</h1>
+    <form id="search">
+        <div class="form-row">
+            <div class="col">
+                <input class="form-control" type="text" name="q" id="q" placeholder="Type here..." />
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="by">
+                    <option>Best match</option>
+                    <option value="keywords">Keywords</option>
+                    <option value="host">Hostname</option>
+                    <option value="uuid">UUID</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#settings-dialog">
+                    <i aria-hidden="true" class="las la-cog la-lg"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="results"></div>
+</div>
+<div id="settings-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="settings">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input setting" name="extreme" id="extreme">
+                            <label class="custom-control-label" for="extreme">Show extreme games</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input setting" name="fpurl" id="fpurl">
+                            <label class="custom-control-label" for="fpurl">Show <em>flashpoint://</em> shortcuts</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var settings = JSON.parse(localStorage.getItem('settings')) || {};
+let search;
+$.fn.form = function() {
+    return Object.fromEntries(new FormData(this[0]));
+}
+function refresh() {
+    if($('#q').val().length > 2) {
+        var data = {...$('#search').form(), ...settings};
+        search = $.post('search.php', data, function(data) {
+            var parsedData = "";
+            for(var curation in data) {
+                parsedData += "<div class='game'>\
+                    <a href='#' data-toggle='collapse' data-target='#game-"+data[curation].id+"'>["+data[curation].platform+"] "+data[curation].title+"</a>\
+                    <div class='game-details collapse' id='game-"+data[curation].id+"' data-id='"+data[curation].id+"'>Loading...</div>\
+                </div>"
+            }
+
+            $('#results').html(parsedData);
+        });
+    }
+}
+$('.setting').each(function() {
+    var val = settings[this.name];
+    if (this.type == 'checkbox') {
+        $(this).prop('checked', !!val);
+    } else {
+        $(this).val(val);
+    }
+});
+$('#settings-dialog').on('hidden.bs.modal', function() {
+    settings = $('#settings').form();
+    localStorage.setItem('settings', JSON.stringify(settings));
+    refresh();
+});
+$('#search').on('submit', function(e) {
+    e.preventDefault();
+});
+$('#search .form-control').on('input', refresh);
+
+$(document).on('show.bs.collapse', '.game-details', function() {
+    var id = $(this).data('id');
+    view = $.get(`view.php?id=${id}`, function(data) {
+        var parsedData = "";
+        parsedData += `<img class="thumb blur" src="https://nul.sh/misc/flashpoint/img/Logos/${data.id.substring(0,2)}/${data.id.substring(2,4)}/${data.id}.png"><img class="thumb blur" src="https://nul.sh/misc/flashpoint/img/Screenshots/${data.id.substring(0,2)}/${data.id.substring(2,4)}/${data.id}.png"><pre>UUID: ${data.id}`;
+        if (data.alternateTitles) parsedData += `\nAlternate Titles: ${data.alternateTitles}`;
+        if (data.series) parsedData += `\nSeries: ${data.series}`;
+        if (data.developer) parsedData += `\nDeveloper: ${data.developer}`;
+        if (data.publisher) parsedData += `\nPublisher: ${data.publisher}`;
+        if (data.language) parsedData += `\nLanguages: ${data.language}`;
+        parsedData += `\nApplication Path: ${data.applicationPath}\nLaunch Command: ${data.launchCommand}</pre>`;
+        
+        $('#game-'+data.id).html(parsedData);
+    });
+});
+
+$(document).on('click', '.blur', function() {
+    $(this).removeClass('blur');
+});
+
+function createEdit(app_id) {
+    var app_name = document.getElementById("app-name-" + app_id);
+    var app_path = document.getElementById("app-path-" + app_id);
+    var app_lc   = document.getElementById("app-lc-" + app_id);
+    var changes = []
+    if(app_name && app_name["value"] != app_name.getAttribute("value")) changes.push(`name = '${app_name['value']}'`);
+    if(app_path && app_path["value"] != app_path.getAttribute("value")) changes.push(`applicationPath = '${app_path['value']}'`);
+    if(app_lc && app_lc["value"] != app_lc.getAttribute("value")) changes.push(`applicationPath = '${app_lc['value']}'`);
+
+    if (changes.length) {
+        sql = `UPDATE additional_app SET ${changes.join(", ")} WHERE id = '${app_id}';`;
+        saveAs(new File([sql], "edit.sql", {type: "text/plain;charset=utf-8"}));
+    }
+    else{
+        alert("It seems there are missing fields from that app.");
+    }
+}
+
+function createApp(app_id) {
+    var uuid = '';
+    var app_option = document.getElementById("new-type-" + app_id)["value"];
+    var app_replac = document.getElementById("new-replc-" + app_id).checked;
+    var app_altnm  = document.getElementById("new-altnm-" + app_id)["value"];
+    var app_name   = (app_option == ':message:') ? 'Message' : (app_option == ':extras:') ? 'Extras' : document.getElementById("new-name-" + app_id)["value"];
+    var app_path   = (app_option == ':message:' || app_option == ':extras:') ? app_option : document.getElementById("new-path-" + app_id)["value"];
+    var app_lc     = document.getElementById("new-lc-" + app_id)["value"];
+    var valid = app_lc ? (app_option == 'alt' ? ((!app_name || !app_path) ? false : (!app_replac || (!!app_altnm ? app_altnm : false))) : true) : false;
+    
+    uuid = UUID.generate();
+
+    if (valid) {
+        sql = (app_option == 'alt' && app_replac)
+            ? `UPDATE game SET applicationPath = '${app_path}', launchCommand = '${app_lc}' WHERE id = '${app_id}';\n`
+            : `INSERT INTO additional_app VALUES '${uuid}', '${app_path}', '${+(app_path == ':message:' || app_path == ':extras:')}', '${app_lc}', '${app_name}', '${+(app_path == ':message:' || app_path == ':extras:')}', '${app_id}';`;
+        saveAs(new File([sql], "newapp.sql", {type: "text/plain;charset=utf-8"}));
+    }
+    else{
+        alert("It seems there are missing fields from that app.");
+    }
+}
+</script>
+</body>
+</html>

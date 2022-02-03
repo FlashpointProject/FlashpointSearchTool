@@ -6,7 +6,7 @@ if (strlen($q) < 3) {
     die();
 }
 
-$db = new SQLite3('flashpoint.sqlite');
+$db = new SQLite3('flashpoint.sqlite', SQLITE3_OPEN_READONLY);
 switch ($by) {
     case 'host':
         $stmt = $db->prepare('SELECT * FROM game WHERE launchCommand LIKE :launch');
@@ -31,10 +31,15 @@ switch ($by) {
         break;
 }
 $result = $stmt->execute();
+
+$myJson = array();
+while($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $myJson[] = array(
+        "id" => $row["id"],
+        "title" => $row["title"],
+        "platform" => $row["platform"]
+    );
+}
+header('Content-type: application/json');
+echo json_encode($myJson);
 ?>
-<?php for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i): ?>
-    <div class="game">
-        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game['platform']}] {$game['title']}" ?></a>
-        <div class="game-details collapse" id="game-<?php echo $i ?>" data-id="<?php echo $game['id'] ?>">Loading...</div>
-    </div>
-<?php endfor ?>

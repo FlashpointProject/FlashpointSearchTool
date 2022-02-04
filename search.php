@@ -32,6 +32,9 @@ $result = $stmt->execute();
 <?php for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i): ?>
     <div class="game">
         <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game[platform]}] {$game[title]}" ?></a>
+<?php if(empty($game['activeDataId'])): ?>
+        <span title="This game is in LEGACY format."><i class="las la-broom"></i></span>
+<?php endif ?>
 <?php if(isset($_POST['fpurl'])): ?>
 		<a href="<?php echo "flashpoint://{$game[id]}" ?>"><i class="las la-external-link-alt"></i></a>
 <?php endif ?>

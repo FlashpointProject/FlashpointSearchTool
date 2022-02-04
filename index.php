@@ -29,13 +29,15 @@ td { padding: 0 1em; }
     <div class="results"></div>
 </div>
 <script>
+let search;
 $('#search').on('submit', function(e) {
     e.preventDefault();
 });
 $('#search .form-control').on('input change', function(e) {
-    $.post('search.php', $('#search').serialize(), function(data) {
+    search = $.post('search.php', $('#search').serialize(), function(data) {
         $('.results').html(data);
         $('.game-details').on('show.bs.collapse', function() {
+            search.abort();
             var id = $(this).data('id');
             $(this).load(`view.php?id=${id}`);
         });

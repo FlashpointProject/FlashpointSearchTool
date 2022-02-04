@@ -76,7 +76,8 @@ function refresh() {
         $('.game-details').on('show.bs.collapse', function() {
             search.abort();
             var id = $(this).data('id');
-            $(this).load(`view.php?id=${id}`, function() {
+            var blur = !settings.extreme;
+            $(this).load(`view.php?id=${id}&blur=${blur}`, function() {
                 $(this).find('.blur').on('click', function() {
                     $(this).removeClass('blur');
                 });

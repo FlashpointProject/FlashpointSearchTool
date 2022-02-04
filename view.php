@@ -12,6 +12,7 @@ $keys = array(
     'launchCommand' => 'Launch Command'
 );
 $id = $_GET['id'];
+$blur = $_GET['blur'] == 'true';
 $db = new SQLite3('flashpoint.sqlite');
 $stmt = $db->prepare('SELECT * FROM game WHERE id = :id');
 $stmt->bindValue(':id', $id);
@@ -25,8 +26,8 @@ $a = substr($id, 0, 2);
 $b = substr($id, 2, 2);
 $img = "$a/$b/$id.png";
 ?>
-<img class="thumb blur" src="img/Logos/<?php echo $img ?>">
-<img class="thumb blur" src="img/Screenshots/<?php echo $img ?>">
+<img class="thumb<?php echo $blur ? ' blur' : '' ?>" src="img/Logos/<?php echo $img ?>">
+<img class="thumb<?php echo $blur ? ' blur' : '' ?>" src="img/Screenshots/<?php echo $img ?>">
 <pre>
 <?php
 foreach($keys as $key => $name) {

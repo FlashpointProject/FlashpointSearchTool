@@ -6,22 +6,23 @@ if (strlen($q) < 3) {
     die();
 }
 
+$extreme = isset($_POST['extreme']) ? '' : ' AND EXTREME = 0';
 $db = new SQLite3('flashpoint.sqlite');
 switch ($by) {
     case 'host':
-        $stmt = $db->prepare('SELECT * FROM game WHERE launchCommand LIKE :launch');
+        $stmt = $db->prepare("SELECT * FROM game WHERE launchCommand LIKE :launch $extreme");
         $stmt->bindValue(':launch', "http://$q/%");
         break;
     case 'keywords':
         $keywords = explode(' ', $q);
         $condition = 'title LIKE ' . implode(' AND title LIKE ', array_fill(0, count($keywords), '?'));
-        $stmt = $db->prepare("SELECT * FROM game WHERE $condition");
+        $stmt = $db->prepare("SELECT * FROM game WHERE ($condition) $extreme");
         foreach($keywords as $i => $keyword) {
             $stmt->bindValue(($i+1), "%$keyword%");
         }
         break;
     default:
-        $stmt = $db->prepare('SELECT * FROM game WHERE title LIKE :title OR alternateTitles LIKE :alternate');
+        $stmt = $db->prepare("SELECT * FROM game WHERE (title LIKE :title OR alternateTitles LIKE :alternate) $extreme");
         $stmt->bindValue(':title', "%$q%");
         $stmt->bindValue(':alternate', "%$q%");
         break;

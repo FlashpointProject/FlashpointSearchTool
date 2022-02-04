@@ -10,6 +10,7 @@
 <style>
 td { padding: 0 1em; }
 .thumb { object-fit: contain; width: 250px; max-height: 250px }
+.blur { filter: blur(8px); cursor: pointer }
 </style>
 <div class="container" id="main">
     <h1>Flashpoint Browser</h1>
@@ -75,7 +76,11 @@ function refresh() {
         $('.game-details').on('show.bs.collapse', function() {
             search.abort();
             var id = $(this).data('id');
-            $(this).load(`view.php?id=${id}`);
+            $(this).load(`view.php?id=${id}`, function() {
+                $(this).find('.blur').on('click', function() {
+                    $(this).removeClass('blur');
+                });
+            });
         });
     });
 }

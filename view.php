@@ -25,8 +25,8 @@ $a = substr($id, 0, 2);
 $b = substr($id, 2, 2);
 $img = "$a/$b/$id.png";
 ?>
-<img class="thumb" src="img/Logos/<?php echo $img ?>">
-<img class="thumb" src="img/Screenshots/<?php echo $img ?>">
+<img class="thumb blur" src="img/Logos/<?php echo $img ?>">
+<img class="thumb blur" src="img/Screenshots/<?php echo $img ?>">
 <pre>
 <?php
 foreach($keys as $key => $name) {

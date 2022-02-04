@@ -50,6 +50,10 @@ td { padding: 0 1em; }
                         <input type="checkbox" class="custom-control-input setting" name="extreme" id="extreme">
                         <label class="custom-control-label" for="extreme">Show extreme games</label>
                     </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input setting" name="fpurl" id="fpurl">
+                        <label class="custom-control-label" for="fpurl">Show <em>flashpoint://</em> shortcuts</label>
+                    </div>
                 </div>
             </form>
         </div>

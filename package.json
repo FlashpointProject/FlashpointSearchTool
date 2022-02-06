@@ -1,6 +1,6 @@
 {
   "name": "flashpointbrowser",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.php",
   "dependencies": {
     "bootstrap": "^4.5.0",

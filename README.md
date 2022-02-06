@@ -2,6 +2,10 @@
 
 ## Setup
 
+* Install dependencies:
+
+`npm install`
+
 * Download the Flashpoint database:
 
 `$ wget http://infinity.unstable.life/Flashpoint/Data/flashpoint.sqlite`

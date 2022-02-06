@@ -10,7 +10,7 @@ foreach($json['tagFilters'] as $filter)
 	}
 }
 
-function is_extreme($game, $nsfw)
+function isExtreme($game, $nsfw)
 {
 	$tags = explode('; ', $game['tagsStr']);
 	foreach($tags as $tag)

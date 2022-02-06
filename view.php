@@ -3,8 +3,7 @@ include 'common.php';
 
 $baseurl = 'http://infinity.unstable.life/Flashpoint/Data/Images';
 
-$keys =
-[
+$keys = [
 	'id' => 'UUID',
 	'alternateTitles' => 'Alternate Titles',
 	'series' => 'Series',
@@ -22,10 +21,9 @@ $stmt = $db->prepare('SELECT * FROM game WHERE id = :id');
 $stmt->bindValue(':id', $id);
 $result = $stmt->execute();
 $game = $result->fetchArray(SQLITE3_ASSOC);
-$blur = is_extreme($game, $nsfw);
+$blur = isExtreme($game, $nsfw);
 
-if(!$game)
-{
+if (!$game) {
 	header('HTTP/1.1 404 Not Found');
 	die('Game not found');
 }
@@ -39,12 +37,10 @@ $img = "$a/$b/$id.png";
 
 <pre>
 <?php
-	foreach($keys as $key => $name)
-	{
-		if($game[$key])
-		{
-			echo "$name: " . $game[$key] . "\n";
-		}
+foreach($keys as $key => $name) {
+	if ($game[$key]) {
+		echo "$name: {$game[$key]}\n";
 	}
+}
 ?>
 </pre>

@@ -5,11 +5,12 @@
 		
 		<title>Flashpoint Browser</title>
 		
-		<script src="js/jquery-3.5.1.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="js/search.js"></script>
-
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
 
@@ -29,7 +30,9 @@
 						</select>
 					</div>
 					<div class="col-sm-1">
-						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#settings-dialog">⚙️</button>
+						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#settings-dialog">
+							<i aria-hidden="true" class="las la-cog la-lg"></i>
+						</button>
 					</div>
 				</div>
 			</form>

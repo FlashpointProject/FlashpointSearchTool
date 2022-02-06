@@ -1,5 +1,5 @@
 <?php
-include 'common.php';
+require 'common.php';
 
 $q = $_POST['q'];
 $by = $_POST['by'];
@@ -29,18 +29,20 @@ switch ($by) {
         break;
 }
 $result = $stmt->execute();
-
-for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i)
-{
-	if(!$extreme && is_extreme($game, $nsfw))
-	{
-		continue;
-	}
-	
-	echo '<div class="game">';
-	echo '<a href="#" data-toggle="collapse" data-target="#game-' . $i . '">[' . $game['platform'] . "] " . $game['title'] . '</a>';
-	echo is_extreme($game, $nsfw) ? ' 🔞' : '';
-	echo empty($game['activeDataId']) ? '<span title="This game is in LEGACY format."> 📜</span>' : '';
-	echo isset($_POST['fpurl']) ? '<a href="flashpoint://' . $game['id'] . '"> ↪️</a>' : '';
-	echo '<div class="game-details collapse" id="game-' . $i . '" data-id="' . $game['id'] . '">Loading...</div>';
-}
+?>
+<?php for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i): ?>
+<?php if(!$extreme && isExtreme($game, $nsfw)): continue; endif; ?>
+    <div class="game">
+        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game[platform]}] {$game[title]}" ?></a>
+<?php if(isExtreme($game, $nsfw)): ?>
+        <span title="This content is considered Not Safe For Work."><span class="badge badge-pill badge-danger">18+</span></span>
+<?php endif ?>
+<?php if(empty($game['activeDataId'])): ?>
+        <span title="This game is in LEGACY format."><i class="las la-broom"></i></span>
+<?php endif ?>
+<?php if(isset($_POST['fpurl'])): ?>
+		<a href="<?php echo "flashpoint://{$game[id]}" ?>"><i class="las la-external-link-alt"></i></a>
+<?php endif ?>
+        <div class="game-details collapse" id="game-<?php echo $i ?>" data-id="<?php echo $game['id'] ?>">Loading...</div>
+    </div>
+<?php endfor ?>

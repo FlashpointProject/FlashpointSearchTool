@@ -1,7 +1,7 @@
 <?php
 require 'common.php';
 
-$baseurl = 'http://infinity.unstable.life/Flashpoint/Data/Images';
+$baseurl = 'img';
 
 $keys = [
     'id' => 'UUID',

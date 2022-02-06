@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule (.*) http://infinity.unstable.life/Flashpoint/Data/Images/$1 [P]

@@ -15,6 +15,5 @@ function isExtreme($game, $nsfw) {
             return true;
         }
     }
-
     return false;
 }

@@ -33,7 +33,7 @@ $result = $stmt->execute();
 <?php for($i = 0; $game = $result->fetchArray(SQLITE3_ASSOC); ++$i): ?>
 <?php if(!$extreme && isExtreme($game, $nsfw)): continue; endif; ?>
     <div class="game">
-        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[{$game[platform]}] {$game[title]}" ?></a>
+        <a href="#" data-toggle="collapse" data-target="#game-<?php echo $i ?>"><?php echo "[$game[platform]] $game[title]" ?></a>
 <?php if(isExtreme($game, $nsfw)): ?>
         <span title="This content is considered Not Safe For Work."><span class="badge badge-pill badge-danger">18+</span></span>
 <?php endif ?>

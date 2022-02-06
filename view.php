@@ -4,15 +4,15 @@ require 'common.php';
 $baseurl = 'http://infinity.unstable.life/Flashpoint/Data/Images';
 
 $keys = [
-	'id' => 'UUID',
-	'alternateTitles' => 'Alternate Titles',
-	'series' => 'Series',
-	'developer' => 'Developer',
-	'publisher' => 'Publisher',
-	'releaseDate' => 'Release Date',
-	'language' => 'Languages',
-	'applicationPath' => 'Application Path',
-	'launchCommand' => 'Launch Command'
+    'id' => 'UUID',
+    'alternateTitles' => 'Alternate Titles',
+    'series' => 'Series',
+    'developer' => 'Developer',
+    'publisher' => 'Publisher',
+    'releaseDate' => 'Release Date',
+    'language' => 'Languages',
+    'applicationPath' => 'Application Path',
+    'launchCommand' => 'Launch Command'
 ];
 
 $id = $_GET['id'];
@@ -24,8 +24,8 @@ $game = $result->fetchArray(SQLITE3_ASSOC);
 $blur = isExtreme($game, $nsfw);
 
 if (!$game) {
-	header('HTTP/1.1 404 Not Found');
-	die('Game not found');
+    header('HTTP/1.1 404 Not Found');
+    die('Game not found');
 }
 
 $a = substr($id, 0, 2);

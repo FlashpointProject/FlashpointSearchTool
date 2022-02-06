@@ -41,7 +41,7 @@ $result = $stmt->execute();
         <span title="This game is in LEGACY format."><i class="las la-broom"></i></span>
 <?php endif ?>
 <?php if(isset($_POST['fpurl'])): ?>
-		<a href="<?php echo "flashpoint://{$game[id]}" ?>"><i class="las la-external-link-alt"></i></a>
+        <a href="<?php echo "flashpoint://{$game[id]}" ?>"><i class="las la-external-link-alt"></i></a>
 <?php endif ?>
         <div class="game-details collapse" id="game-<?php echo $i ?>" data-id="<?php echo $game['id'] ?>">Loading...</div>
     </div>

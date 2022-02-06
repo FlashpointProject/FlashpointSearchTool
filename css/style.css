@@ -1,17 +1,14 @@
-td
-{
-    padding: 0 1em;
+td {
+  padding: 0 1em;
 }
 
-.thumb
-{
-    object-fit: contain;
-    width: 250px;
-    max-height: 250px;
+.thumb {
+  object-fit: contain;
+  width: 250px;
+  max-height: 250px;
 }
 
-.blur
-{
-    filter: blur(8px);
-    cursor: pointer;
+.blur {
+  filter: blur(8px);
+  cursor: pointer;
 }

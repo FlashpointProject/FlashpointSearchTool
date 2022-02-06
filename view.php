@@ -1,5 +1,5 @@
 <?php
-include 'common.php';
+require 'common.php';
 
 $baseurl = 'http://infinity.unstable.life/Flashpoint/Data/Images';
 
@@ -38,9 +38,9 @@ $img = "$a/$b/$id.png";
 <pre>
 <?php
 foreach($keys as $key => $name) {
-	if ($game[$key]) {
-		echo "$name: {$game[$key]}\n";
-	}
+    if ($game[$key]) {
+        echo "$name: {$game[$key]}\n";
+    }
 }
 ?>
 </pre>

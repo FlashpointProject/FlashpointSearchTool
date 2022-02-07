@@ -26,7 +26,8 @@
                         <select class="custom-select form-control" name="by">
                             <option>Best match</option>
                             <option value="keywords">Keywords</option>
-                            <option value="host">Hostname</option>
+                            <option value="host">Launch Command</option>
+                            <option value="uuid">UUID</option>
                         </select>
                     </div>
                     <div class="col-sm-1">

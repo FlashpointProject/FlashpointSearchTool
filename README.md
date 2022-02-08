@@ -4,7 +4,7 @@
 
 * Install dependencies:
 
-`npm install`
+`npm ci`
 
 * Download the Flashpoint database:
 

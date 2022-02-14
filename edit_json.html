@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Flashpoint's Average Pendie System</title>
+
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script>import { v4 as uuidv4 } from 'uuid';console.log(uuidv4());</script>
+        <script src="js/edit_json.js"></script>
+
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+
+    <body>
+        <div class="container" id="main">
+            <h1>Flashpoint's Average Pendie System</h1>
+            <form id="search">
+                <div class="form-row">
+                    <div class="col">
+                        <input class="form-control" type="text" name="q" placeholder="Type here..." />
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="custom-select form-control" name="by">
+                            <option>Best match</option>
+                            <option value="keywords">Keywords</option>
+                            <option value="host">Launch Command</option>
+                            <option value="uuid">UUID</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#settings-dialog">
+                            <i aria-hidden="true" class="las la-cog la-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="results"></div>
+        </div>
+        <div id="settings-dialog" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Settings</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="settings">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input setting" name="extreme" id="extreme">
+                                    <label class="custom-control-label" for="extreme">Show extreme games</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input setting" name="fpurl" id="fpurl">
+                                    <label class="custom-control-label" for="fpurl" id="fpurl">Show <em>flashpoint://</em> shortcuts</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <datalist id="app-path">
+            <option value=":browser-mode:"></option>
+            <option value="FPSoftware\Basilisk-Portable\Basilisk-Portable.exe"></option>
+            <option value="FPSoftware\Flash\5r30\FlashPla.exe"></option>
+            <option value="FPSoftware\Flash\6r21\SAFlashPlayer.exe"></option>
+            <option value="FPSoftware\Flash\6r4\SAFlashPlayer.exe"></option>
+            <option value="FPSoftware\Flash\7r14\SAFlashPlayer.exe"></option>
+            <option value="FPSoftware\Flash\8r22\SAFlashPlayer.exe"></option>
+            <option value="FPSoftware\Flash\9r16\SAFlashPlayer.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer11_9r900_152_win_sa_debug.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer14_0r0_179_win_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer19_0r0_245_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer27_0r0_187_win_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer9r277_win_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer_10_3r183_90_win_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer_32_sa.exe"></option>
+            <option value="FPSoftware\Flash\flashplayer_7_sa.exe"></option>
+            <option value="FPSoftware\FlashpointSecurePlayer.exe"></option>
+            <option value="FPSoftware\OldCPUSimulator\OldCPUSimulator.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ101\Projector.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ101\SPR.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ101\SPRD.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ1103\SPR.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ1159\Projector.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ1159\SPR.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ1159\SPRD.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ12\Projector.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ12\SPR.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ851\Projector.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ851\SPR.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ851\SPRS.exe"></option>
+            <option value="FPSoftware\Shockwave\PJ9\SPR.exe"></option>
+            <option value="FPSoftware\startActiveX.bat"></option>
+            <option value="FPSoftware\startAlambik.bat"></option>
+            <option value="FPSoftware\startAtmo212d.bat"></option>
+            <option value="FPSoftware\startBasilisk_compat.bat"></option>
+            <option value="FPSoftware\startBlaxxun44.bat"></option>
+            <option value="FPSoftware\startBurster.bat"></option>
+            <option value="FPSoftware\startChrome.bat"></option>
+            <option value="FPSoftware\startCosmo211.bat"></option>
+            <option value="FPSoftware\startGroove.bat"></option>
+            <option value="FPSoftware\startJava.bat"></option>
+            <option value="FPSoftware\startJavaInBrowser.bat"></option>
+            <option value="FPSoftware\startLive3D.bat"></option>
+            <option value="FPSoftware\startNetscape.bat"></option>
+            <option value="FPSoftware\startRebol.bat"></option>
+            <option value="FPSoftware\startSVR.bat"></option>
+            <option value="FPSoftware\startShiVa.bat"></option>
+            <option value="FPSoftware\startUnity.bat"></option>
+            <option value="FPSoftware\startUnityFF.bat"></option>
+            <option value="FPSoftware\startVRweb.bat"></option>
+            <option value="FPSoftware\startXaraPlugin.bat"></option>
+        </datalist>
+    </body>
+</html>

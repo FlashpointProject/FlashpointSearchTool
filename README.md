@@ -1,4 +1,4 @@
-# Flashpoint Browser
+# Flashpoint Search Tool
 
 ## Setup
 

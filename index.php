@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Flashpoint Browser</title>
+        <title>Flashpoint Search Tool</title>
 
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -16,7 +16,7 @@
 
     <body>
         <div class="container" id="main">
-            <h1>Flashpoint Browser</h1>
+            <h1>Flashpoint Search Tool</h1>
             <form id="search">
                 <div class="form-row">
                     <div class="col">

@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Flashpoint Search Tool</title>
+        <title>Flashpoint Browser</title>
 
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="js/search.js"></script>
+        <script src="js/search_json.js"></script>
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="node_modules/line-awesome/dist/line-awesome/css/line-awesome.min.css" />
@@ -16,7 +16,7 @@
 
     <body>
         <div class="container" id="main">
-            <h1>Flashpoint Search Tool</h1>
+            <h1>Flashpoint Browser</h1>
             <form id="search">
                 <div class="form-row">
                     <div class="col">
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input setting" name="fpurl" id="fpurl">
-                                    <label class="custom-control-label" for="fpurl">Show <em>flashpoint://</em> shortcuts</label>
+                                    <label class="custom-control-label" for="fpurl" id="fpurl">Show <em>flashpoint://</em> shortcuts</label>
                                 </div>
                             </div>
                         </form>
